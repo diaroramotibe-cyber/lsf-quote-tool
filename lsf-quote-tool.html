@@ -1,0 +1,73 @@
+ Here is the **complete, working HTML file** for your LSF + Nutec quoting tool. Copy the entire code block below, save it as `LSF_Nutec_Quote.html`, and open it in your browser. No additional files or internet needed (except the Font Awesome icon CDN, which loads automatically).
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LSF + Nutec Quote • South Africa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; font-family: 'Segoe UI', Roboto, system-ui, sans-serif; }
+        body { background: #f2f5f9; display: flex; justify-content: center; padding: 30px 20px; }
+        .container {-width: 1400px; width: 100%; background: white; border-radius: 28px; box-shadow: 0 20px 40px rgba(0,0,0,0.08); padding: 30px 25px; }
+        h1 { font-weight: 600; font-size: 28px; display: flex; align-items: center; gap: 10px; color: #1e2a41; margin-bottom: 10px; }
+        h1 small { font-size: 16px; font-weight: 400; color: #5c6b7e; margin-left: 10px; }
+        .grid-2col { display: grid; grid-template-columns:1fr 1.1fr; gap: 28px; margin: 25px 0 20px; }
+        .card { background: #ffffff; border-radius: 20px; padding: 20px 22px; box-shadow: 0 6px 14px rgba(0,0,0,0.03); border: 1px solid #e9edf4; }
+        .card h2 { font-size: 20px; font-weight: 600; color: #1273b; margin-bottom: 18px; display: flex; align-items: center; gap: 12px; border-bottom: 2px solid #eef2f7; padding-bottom: px; }
+        .input-row { display: flex; flex-wrap: wrap; align-items: center; margin-bottom: 14px; gap: 8px 12px; }
+        .input-row label { min-width: 140px; font-weight: 500; color: #2d3f56; font-size: 14px; }
+        .input-row input, .input-row select { flex: 1; min-width: 100px; padding: 10px 14px; border: 1px solid #d6dee8; border-radius: 14px; background: #fafcff; font-size: 14px; transition: 0.15s; }
+        .input-row input:focus, .input-row select:focus { border-color: #3b6ba5; outline: none; background: white; box-shadow: 0 0 0 3px rgba(59,107,165,0.15); }
+        .badge-province { background: #eef3fa; padding: 3px 12px; border-radius: 30px; font-size: 13px; color: #1e3a5f; }
+        .subtotal-line { display: flex; justify-content: space-between; padding: 10px 0 6px; border-bottom: 1px dashed #e2e8f0; font-size: 15px; }
+        .total-quote { background: #1a2a41; color: white; padding: 18px 22px; border-radius: 18px; margin: 16px 0 12px; display: flex; justify-content: space-between; align-items: center; }
+        .total-quote span:first-child { font-size: 18px; font-weight: 500; }
+        .total-quote .amount { font-size: 30px; font-weight: 700; letter-spacing: 0.5px; }
+        .itemized-bill { background: #f8faff; border-radius: 16px padding: 12px 0; margin: 15px 0 8px; }
+        .bill-row { display: flex; justify-content: space-between; padding: 8px 16px; font-size: 14px; border-bottom: 1px solid #eaedf3; }
+        .bill-row.header { font-weight 600; color: #1e3a5f; background: #e6edf6; border-radius: 10px 10px 0 0; }
+        .bill-row.total-row { font-weight: 700; background: #eef2f9; border-radius: 0 0 10px 10px; border-bottom: none; }
+        .margin-calc { background: #f2f7fe; border-radius: 18px; padding: 18px 20px; margin-top: 18px; border: 1px solid #dce5f0; }
+        .margin-calc h3 { font-weight: 600; font-size: 17px; margin-bottom: 12px; color: #1f334b; }
+        .flex-between { display: flex; justify-content: space-between; gap: 15px; flex-wrap: wrap; }
+        .stat-box { background: white; border-radius: 16px; padding: 12px 18px; flex: 1; min-width: 100px; box-shadow: 0 2px 6px rgba(0,0,0,0.02); border: 1px solid #e2e9f2; }
+        .stat-box .label { font-size: 13px; color: #4a5d74; }
+        .stat-box .value { font-size: 22px; font-weight: 600; color: #1c2d44; }
+        .btn { background: #1e3a5f; color: white; border: none; padding: 10px 24px; border-radius: 40px; font-weight: 500; font-size: 14px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
+        .btn:hover { background: #2b4b77; transform: scale(0.97); }
+        .btn-outline { background: transparent; border: 1px solid #bcc9db; color: #1e3a5f; }
+        .export-bar { display: flex; justify-content: flex-end; gap: 12px; margin-top: 15px; flex-wrap: wrap; }
+        .footer-note { text-align: right; font-size: 13px; color: #6b7c90; margin-top: 12px; border-top: 1px solid #eef2f7; padding-top: 15px; }
+        @media (max-width 900px) { .grid-2col { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1><i class="fas fa-helmet-safety" style="color: #2b4b77;"></i> LSF + Nutec Quote <small>South Africa · v1.0</small></h1>
+
+    <div class="grid-2col">
+        <!-- LEFT: INPUTS -->
+        <div class="card">
+            <h2><i class="fas fa-sliders-h"></i> Project parameters</h2>
+            <div class="input-row">
+                <label><i class="far fa-square"></i> Area (m²)</label>
+                <input type="number" id="area" value="75" min="10" max="500" step="5">
+            </div>
+            <div class="input-row">
+                <label><i class="fas fa-th"></i> Board thickness</label>
+                <select id="thickness">
+                    <option value="10">10 mm</option>
+                    <option value="15">15 mm</option>
+                </select>
+            </div>
+            <div class="input-row">
+                <label><i class="fas fa-user-cog"></i> Labour rate (ZAR/h)</label>
+                <input type="number" id="labourRate" value="185" min="50" step="5">
+            </div>
+            <div class="input-row">
+                <label><i class="fas fa-truck"></i> Province</label>
+                <select id="province">
+                    <option value="GP
